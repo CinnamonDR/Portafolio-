@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTFOLIO // USER_ROOT // V3.0</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #020205;
+            --neon-cyan: #00f2ff;
+            --neon-pink: #ff00ff;
+            --neon-green: #00ff41;
+            --glass: rgba(10, 10, 20, 0.85);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Scanline CRT Effect */
+        body::before {
+            content: " ";
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 9999;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Glow Animations */
+        @keyframes glow-cyan { from { box-shadow: 0 0 5px var(--neon-cyan); } to { box-shadow: 0 0 20px var(--neon-cyan); } }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--neon-cyan);
+            text-shadow: 2px 2px var(--neon-pink);
+            display: inline-block;
+        }
+
+        .glitch-text:hover { animation: glitch 0.3s infinite; }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(2, 2, 5, 0.9);
+            border-bottom: 1px solid var(--neon-cyan);
+            backdrop-filter: blur(10px);
+        }
+        .nav-link { 
+            color: var(--neon-cyan) !important; 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            margin: 0 10px;
+        }
+        .nav-link:hover { color: var(--neon-pink) !important; text-shadow: 0 0 10px var(--neon-pink); }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at center, #101030 0%, #020205 100%);
+        }
+
+        /* Profile Image Styling */
+        .profile-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+        }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 3px solid var(--neon-cyan);
+            padding: 5px;
+            background: black;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+        .profile-frame {
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 1px solid var(--neon-pink);
+            z-index: -1;
+            animation: glow-cyan 2s infinite alternate;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        /* Cards */
+        .cyber-card {
+            background: var(--glass);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cyber-card:hover {
+            border-color: var(--neon-pink);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.2);
+        }
+        .project-img {
+            height: 200px;
+            object-fit: cover;
+            filter: grayscale(0.6) brightness(0.8);
+            transition: 0.4s;
+            border-bottom: 1px solid var(--neon-cyan);
+        }
+        .cyber-card:hover .project-img { filter: grayscale(0) brightness(1); }
+
+        /* Buttons */
+        .btn-neon {
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            background: transparent;
+            font-family: 'Orbitron', sans-serif;
+            padding: 10px 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .btn-neon:hover {
+            background: var(--neon-cyan);
+            color: black;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Skills Progress */
+        .progress { background: #111; height: 8px; border-radius: 0; overflow: visible; }
+        .progress-bar { background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
+
+        section { padding: 100px 0; }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        footer { border-top: 1px solid var(--neon-cyan); padding: 40px 0; background: #000; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand glitch-text" href="#">SYS_ADMIN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">// SOBRE_MÍ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">// SKILLS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">// PROYECTOS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">// CONTACTO</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h5 class="text-neon-cyan mb-3" style="color: var(--neon-cyan)">[ ACCESO CONCEDIDO ]</h5>
+                    <h1 class="display-3 glitch-text mb-4">HOLOGRAM_DEV</h1>
+                    <p class="lead mb-5">Arquitecto de soluciones digitales especializado en el desarrollo Full-Stack, optimización de sistemas y creación de interfaces de próxima generación.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#projects" class="btn btn-neon">Explorar Proyectos</a>
+                        <a href="#contact" class="btn btn-neon" style="border-color: var(--neon-pink); color: var(--neon-pink)">Enviar Señal</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                    <div class="profile-container">
+                        <div class="profile-frame"></div>
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQFIhwF81de5vw/profile-displayphoto-shrink_200_200/B56ZRB_syUGsAY-/0/1736274006799?e=1778112000&v=beta&t=2PXoymGWopDrtt1vI3NbPzM0kqF99qQQtCStcZVypUo" 
+                             class="profile-img" alt="Profile Photo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / SKILLS -->
+    <section id="about" style="background: rgba(0,0,0,0.5);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 mb-5">
+                    <h2 class="section-title">BIO_LOG</h2>
+                    <p>Operando desde la intersección entre el diseño y la ingeniería. Mi misión es construir herramientas digitales que no solo funcionen, sino que definan el futuro.</p>
+                    <p>Experto en resolver problemas complejos mediante algoritmos eficientes y estructuras de datos escalables.</p>
+                </div>
+                <div class="col-md-6 offset-md-1" id="skills">
+                    <h2 class="section-title">HABILIDADES_NÚCLEO</h2>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1"><span>NODE_JS / BACKEND</span><span>90%</span></div>
+                        <div class="progress"><div class="progress-bar" style="width: 90%"></div></div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1"><span>REACT_JS / UI</span><span>85%</span></div>
+                        <div class="progress"><div class="progress-bar" style="width: 85%"></div></div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1"><span>PYTHON_DATA</span><span>75%</span></div>
+                        <div class="progress"><div class="progress-bar" style="width: 75%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title text-center">BASE_DE_DATOS_PROYECTOS</h2>
+            <div class="row g-4">
+                <!-- Project 1 -->
+                <div class="col-md-4">
+                    <div class="cyber-card">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" class="card-img-top project-img" alt="DASHBOARD_AI">
+                        <div class="card-body p-4">
+                            <h5 class="glitch-text" style="font-size: 1.1rem;">DASHBOARD_AI</h5>
+                            <p class="small text-muted mt-2">Sistema de monitoreo de IA con visualización de redes neuronales en tiempo real.</p>
+                            <a href="#" class="btn btn-neon btn-sm mt-3">Ver Código</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="col-md-4">
+                    <div class="cyber-card">
+                        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800" class="card-img-top project-img" alt="CRYPTO_NODE">
+                        <div class="card-body p-4">
+                            <h5 class="glitch-text" style="font-size: 1.1rem;">CRYPTO_NODE</h5>
+                            <p class="small text-muted mt-2">Nodo de validación distribuido para protocolos de blockchain de capa 2.</p>
+                            <a href="#" class="btn btn-neon btn-sm mt-3">Ver Código</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="col-md-4">
+                    <div class="cyber-card">
+                        <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800" class="card-img-top project-img" alt="VOID_SHOP">
+                        <div class="card-body p-4">
+                            <h5 class="glitch-text" style="font-size: 1.1rem;">VOID_SHOP</h5>
+                            <p class="small text-muted mt-2">E-commerce de activos digitales con integración de pagos inteligentes.</p>
+                            <a href="#" class="btn btn-neon btn-sm mt-3">Ver Código</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" style="background: linear-gradient(0deg, #0a0a20 0%, #020205 100%);">
+        <div class="container">
+            <h2 class="section-title text-center">CONTACTO_ESTABLECIDO</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="cyber-card p-5">
+                        <form>
+                            <div class="mb-4">
+                                <label class="small mb-2 text-neon-cyan" style="color:var(--neon-cyan)">ID_USUARIO</label>
+                                <input type="text" class="form-control bg-transparent border-secondary text-white rounded-0">
+                            </div>
+                            <div class="mb-4">
+                                <label class="small mb-2 text-neon-cyan" style="color:var(--neon-cyan)">CORREO_ELECTRÓNICO</label>
+                                <input type="email" class="form-control bg-transparent border-secondary text-white rounded-0">
+                            </div>
+                            <div class="mb-4">
+                                <label class="small mb-2 text-neon-cyan" style="color:var(--neon-cyan)">MENSAJE_ENCRIPTADO</label>
+                                <textarea class="form-control bg-transparent border-secondary text-white rounded-0" rows="4"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-neon w-100">TRANSMITIR DATOS</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container text-center">
+            <div class="mb-4">
+                <a href="#" class="mx-3 text-white"><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" class="mx-3 text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+                <a href="#" class="mx-3 text-white"><i class="fab fa-codepen fa-lg"></i></a>
+            </div>
+            <p class="small m-0 text-muted">DESIGNED BY Justin // © 2025 // ENCRYPTED_CONNECTION</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Intersection Observer para animaciones de entrada
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(s => {
+            s.style.opacity = "0";
+            s.style.transform = "translateY(50px)";
+            s.style.transition = "all 0.8s ease-out";
+            observer.observe(s);
+        });
+    </script>
+</body>
+</html>
